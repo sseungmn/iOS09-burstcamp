@@ -43,7 +43,11 @@ final class TabBarCoordinator: TabBarCoordinatorProtocol {
     }
 
     func start() {
-        let controllers = [TabBarPage.myPage, TabBarPage.bookmark, TabBarPage.home]
+        let controllers = [
+            TabBarPage.myPage,
+            TabBarPage.bookmark,
+            TabBarPage.home
+        ]
             .sorted { $0.index < $1.index }
             .map { prepareTabController($0) }
 
