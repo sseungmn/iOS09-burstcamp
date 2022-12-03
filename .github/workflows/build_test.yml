@@ -1,4 +1,4 @@
-name: CI_Test
+name: build_test
 
 on:
   push:
@@ -8,10 +8,13 @@ on:
 
 jobs:
   build:
-
+    
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+      
     - name: Build & Test
-      run: xcodebuild clean test -project Eoljuga/Eoljuga.xcodeproj -scheme Eoljuga -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+      run: |
+        xcodebuild clean test -project burstcamp/burstcamp.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=14.0'
