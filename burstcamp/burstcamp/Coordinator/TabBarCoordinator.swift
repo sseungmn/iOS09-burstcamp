@@ -44,8 +44,8 @@ final class TabBarCoordinator: TabBarCoordinatorProtocol {
 
     func start() {
         let controllers = [
-            TabBarPage.myPage,
             TabBarPage.bookmark,
+            TabBarPage.myPage,
             TabBarPage.home
         ]
             .sorted { $0.index < $1.index }
