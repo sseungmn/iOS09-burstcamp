@@ -1,9 +1,31 @@
-- name: build
+name: build
 
-- on: [push, pull_request]
+on: [push, pull_request]
 
-- uses: yukiarrr/ios-build-action@v1.5.0
-  with:
-    project-path: "burstcamp/burstcamp.xcodeproj"
-    scheme: "burstcamp"
-    build-sdk: "iOS 14.0"
+jobs:
+  build:
+    runs-on: macos-12
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: xcodebuild
+        uses: sersoft-gmbh/xcodebuild-action@v1
+        with:
+          project: burstcamp/busrtcamp.xcodeproj
+          scheme: burstcamp
+          destination: platform=iOS
+          action: build
+          
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        with:
+          args: --strict --config "burstcamp/.swiftlint.yml"
+        env:
+          DIFF_BASE: ${{ github.base_ref }}
+        
