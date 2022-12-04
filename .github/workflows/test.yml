@@ -23,9 +23,9 @@ jobs:
           FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
           API_SECRET: ${{ secrets.API_SECRET }}
       run: |
-        echo $FIREBASE_SECRET | base64 -D -o $PROJECT/GoogleService-Info.plist
-        echo $API_SECRET | base64 -D -o $PROJECT/Service-Info.plist
+        echo $FIREBASE_SECRET | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
+        echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
 
     - name: Build
       run: |
-        xcodebuild clean build -project $PROJECT.xcodeproj -scheme burstcamp -destination "${destination}"
+        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination "${{ matrix.destination }}"
