@@ -18,5 +18,6 @@ jobs:
         FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
         API_SECRET: ${{ secrets.API_SECRET }}
       run: |
-        echo $FIREBASE_SECRET | base64 -D -o data.txt
-        echo "$(pwd)"
+        echo $FIREBASE_SECRET | base64 -D -o ./burstcamp/GoogleService-Info.txt
+        echo $API_SECRET | base64 -D -o ./burstcamp/Service-Info.txt
+        cat $(pwd)/burstcamp/.swiftlint.auto.yml
