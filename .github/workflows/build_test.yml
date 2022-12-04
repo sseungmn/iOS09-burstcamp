@@ -25,9 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Select Xcode (${{ matrix.xcode }})
-        run: |
-          sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode }}.app
-          && /usr/bin/xcodebuild -version
+        run: >
+          sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode }}.app &&
+          /usr/bin/xcodebuild -version
       - name: Build iOS (${{ matrix.iOS }})
         run: >
           xcodebuild clean test -project ${{ matrix.project }} 
