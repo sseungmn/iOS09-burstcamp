@@ -1,13 +1,13 @@
 name: build
 
+env:
+  PROJECT: 'burstcamp/burstcamp'
+
 on:
   push:
     branches: [ develop, feature/*, refactor/*, fix/* ]
   pull_request:
     branches: [ main, develop ]
-
-env:
-  PROJECT: 'burstcamp/burstcamp'
 
 jobs:
   build:
@@ -30,30 +30,30 @@ jobs:
       run: |
         echo $FIREBASE_SECRET | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
         echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
+        cat ${{ env.PROJECT }}
 
-    - name: Select Xcode ${{ matrix.xcode }}
-      run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
+    # - name: Select Xcode ${{ matrix.xcode }}
+    #   run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
 
-    - name: Cache SwiftPM
-      uses: actions/cache@v1
-      with:
-        path: .build
-        key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('**/Package.resolved') }}
-        restore-keys: |
-          ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
+    # - name: Cache SwiftPM
+    #   uses: actions/cache@v1
+    #   with:
+    #     path: .build
+    #     key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('**/Package.resolved') }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
 
-    - name: Cache DerivedData
-      uses: actions/cache@v1
-      with:
-        path: ~/Library/Developer/Xcode/DerivedData
-        key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
-        restore-keys: |
-          ${{ runner.os }}-iOS_derived_data-
+    # - name: Cache DerivedData
+    #   uses: actions/cache@v1
+    #   with:
+    #     path: ~/Library/Developer/Xcode/DerivedData
+    #     key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
+    #     restore-keys: |
+    #       ${{ runner.os }}-iOS_derived_data-
   
-    - name: Build
-      run: >
-        xcodebuild clean build
-        -disableAutomaticPackageResolution
-        -project ${{ env.PROJECT }}.xcodeproj
-        -scheme burstcamp 
-        -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
+    # - name: Build
+    #   run: >
+    #     xcodebuild clean build
+    #     -project ${{ env.PROJECT }}.xcodeproj
+    #     -scheme burstcamp 
+    #     -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
