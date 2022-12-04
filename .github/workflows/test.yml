@@ -1,7 +1,7 @@
 name: build
 
 env:
-  PROJECT: 'burstcamp/burstcamp'
+  PROJECT: 'burstcamp'
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       run: |
         echo $FIREBASE_SECRET | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
         echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
-        ls ${{ env.PROJECT }}
+        cat ${{ env.PROJECT }}/GoogleService-Info.plist
 
     # - name: Select Xcode ${{ matrix.xcode }}
     #   run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
