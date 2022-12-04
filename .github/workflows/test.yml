@@ -12,7 +12,9 @@ jobs:
     runs-on: macos-11
     strategy:
         matrix:
-          destination: ['platform=iOS Simulator,OS=14.4,name=iPhone 13 Pro']
+          include:
+            - xcode: "12.4"
+              ios: "14.4"
 
     steps:
     - name: Checkout
@@ -26,6 +28,9 @@ jobs:
         echo $FIREBASE_SECRET | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
         echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
 
+    - name: Select Xcode ${{ xcode }}
+      run: sudo xcode-select -switch /Applications/Xcode_$xcode.app && /usr/bin/xcodebuild -version
+
     - name: Build
       run: |
-        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination "${{ matrix.destination }}"
+        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=$ios,name=iPhone 13 Pro'
