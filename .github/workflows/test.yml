@@ -11,13 +11,13 @@ env:
 
 jobs:
   build:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
         matrix:
           include:
-            - xcode: "12.4"
-              ios: "14.4"
-              simulator: "iPhone 12 Pro"
+            - xcode: "14.0"
+              ios: "16.0"
+              simulator: "iPhone 13 Pro"
 
     steps:
     - name: Checkout
