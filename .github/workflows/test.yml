@@ -29,7 +29,7 @@ jobs:
         echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
 
     - name: Select Xcode ${{ matrix.xcode }}
-      run: sudo xcode-select -switch /Applications/Xcode_$xcode.app && /usr/bin/xcodebuild -version
+      run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
 
     - name: Build
       run: |
