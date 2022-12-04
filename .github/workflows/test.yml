@@ -36,15 +36,15 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
 
     - name: Cache SwiftPM
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: .build
-        key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('**/Package.resolved') }}
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
         restore-keys: |
-          ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
+          ${{ runner.os }}-spm-
 
     - name: Cache DerivedData
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/Library/Developer/Xcode/DerivedData
         key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
