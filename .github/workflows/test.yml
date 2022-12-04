@@ -1,4 +1,4 @@
-name: build_test
+name: build
 
 on:
   push:
@@ -8,16 +8,24 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    strategy:
+        matrix:
+          destination: ['platform=iOS Simulator,OS=14.0,name=iPhone 13 Pro']
+    env:
+        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
+        API_SECRET: ${{ secrets.API_SECRET }}
+        PROJECT: 'burstcamp/burstcamp'
 
     steps:
     - name: Checkout
       uses: actions/checkout@v3
       
     - name: Create secret file
-      env:
-        FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }}
-        API_SECRET: ${{ secrets.API_SECRET }}
+      
       run: |
-        echo $FIREBASE_SECRET | base64 -D -o burstcamp/burstcamp/GoogleService-Info.txt
-        echo $API_SECRET | base64 -D -o burstcamp/burstcamp/Service-Info.txt
-        ls -al burstcamp/burstcamp
+        echo $FIREBASE_SECRET | base64 -D -o $PROJECT/GoogleService-Info.plist
+        echo $API_SECRET | base64 -D -o $PROJECT/Service-Info.plist
+
+    - name: Build
+      run: |
+        xcodebuild clean build -project $PROJECT.xcodeproj -scheme burstcamp -destination "${destination}"
