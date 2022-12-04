@@ -51,5 +51,9 @@ jobs:
           ${{ runner.os }}-iOS_derived_data-
   
     - name: Build
-      run: |
-        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
+      run: >
+        xcodebuild clean build
+        -disableAutomaticPackageResolution
+        -project ${{ env.PROJECT }}.xcodeproj
+        -scheme burstcamp 
+        -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
