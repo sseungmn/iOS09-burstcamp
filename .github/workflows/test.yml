@@ -38,10 +38,10 @@ jobs:
     - name: Cache SwiftPM
       uses: actions/cache@v3
       with:
-        path: .build
-        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
-        restore-keys: |
-          ${{ runner.os }}-spm-
+          path: ~/Library/Developer/Xcode/DerivedData/${{ env.PROJECT }}*/SourcePackages/
+          key: ${{ runner.os }}-spm-${{ hashFiles('${{ env.PROJECT }}.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
 
     - name: Cache DerivedData
       uses: actions/cache@v3
@@ -51,7 +51,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-iOS_derived_data-
   
-    - name: Build
+    - name: Build iOS ${{ matrix.ios }} on ${{ matrix.simulator }}
       env:
         XCODEPROJ: "${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj"
       run: >
