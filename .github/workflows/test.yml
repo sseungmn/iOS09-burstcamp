@@ -20,4 +20,4 @@ jobs:
       run: |
         echo $FIREBASE_SECRET | base64 -D -o ./burstcamp/GoogleService-Info.txt
         echo $API_SECRET | base64 -D -o ./burstcamp/Service-Info.txt
-        cat $(pwd)/burstcamp/.swiftlint.auto.yml
+        ls -al burstcamp/burstcamp
