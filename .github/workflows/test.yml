@@ -5,8 +5,10 @@ on:
     branches: [ develop, feature/*, refactor/*, fix/* ]
   pull_request:
     branches: [ main, develop ]
+
 env:
   PROJECT: 'burstcamp/burstcamp'
+
 jobs:
   build:
     runs-on: macos-11.7
@@ -32,20 +34,20 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode}}.app && /usr/bin/xcodebuild -version
 
     - name: Cache SwiftPM
-        uses: actions/cache@v1
-        with:
-          path: CIDependencies/.build
-          key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('CIDependencies/Package.resolved') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
+      uses: actions/cache@v1
+      with:
+        path: CIDependencies/.build
+        key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('CIDependencies/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
 
     - name: Cache DerivedData
-        uses: actions/cache@v1
-        with:
-          path: ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
-          restore-keys: |
-            ${{ runner.os }}-iOS_derived_data
+      uses: actions/cache@v1
+      with:
+        path: ~/Library/Developer/Xcode/DerivedData
+        key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
+        restore-keys: |
+          ${{ runner.os }}-iOS_derived_data
   
     - name: Build
       run: |
