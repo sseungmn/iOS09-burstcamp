@@ -11,12 +11,13 @@ env:
 
 jobs:
   build:
-    runs-on: macos-11.7
+    runs-on: macos-11
     strategy:
         matrix:
           include:
             - xcode: "12.4"
               ios: "14.4"
+              simulator: "iPhone 12 Pro"
 
     steps:
     - name: Checkout
@@ -36,8 +37,8 @@ jobs:
     - name: Cache SwiftPM
       uses: actions/cache@v1
       with:
-        path: CIDependencies/.build
-        key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('CIDependencies/Package.resolved') }}
+        path: .build
+        key: ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-${{ hashFiles('**/Package.resolved') }}
         restore-keys: |
           ${{ runner.os }}-xcode_${{ matrix.xcode }}-spm-
 
@@ -47,8 +48,8 @@ jobs:
         path: ~/Library/Developer/Xcode/DerivedData
         key: ${{ runner.os }}-iOS_derived_data-xcode_${{ matrix.xcode }}
         restore-keys: |
-          ${{ runner.os }}-iOS_derived_data
+          ${{ runner.os }}-iOS_derived_data-
   
     - name: Build
       run: |
-        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=iPhone 13 Pro'
+        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
