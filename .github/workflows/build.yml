@@ -11,7 +11,7 @@ jobs:
       - name: xcodebuild
         uses: sersoft-gmbh/xcodebuild-action@v1
         with:
-          project: burstcamp/busrtcamp.xcodeproj
+          project: burstcamp/burstcamp.xcodeproj
           scheme: burstcamp
           destination: platform=iOS
           action: build
