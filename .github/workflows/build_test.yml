@@ -8,10 +8,23 @@ on:
 
 jobs:
   build:
-
-    runs-on: macos-latest
-
+    runs-on: macos-11
+    strategy:
+      matrix:
+        include:
+          - project: "burstcamp/burstcamp.xcodeproj"
+            scheme: "burstcamp"
+            xcode: "12.4"
+            iOS: "14.4"
     steps:
-    - uses: actions/checkout@v3
-    - name: Build & Test
-      run: xcodebuild clean test -project Eoljuga/Eoljuga.xcodeproj -scheme Eoljuga -destination 'platform=iOS Simulator,name=iPhone 14 Pro'
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Select Xcode (${{ matrix.xcode }})
+      run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode }}.app && \
+           /usr/bin/xcodebuild -version
+      
+    - name: Build iOS (${{ matrix.iOS }})
+      run: xcodebuild clean test -project ${{ matrix.project }} \
+           -scheme ${{ matrix.scheme }} \
+           -destination 'platform=iOS Simulator,name=iPhone 14 Pro,OS=${{ matrix.iOS }}'
