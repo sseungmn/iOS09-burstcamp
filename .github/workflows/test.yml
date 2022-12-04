@@ -55,7 +55,7 @@ jobs:
       env:
         XCODEPROJ: "${{ env.PROJECT }}/${{ env.PROJECT }}.xcodeproj"
       run: >
-        xcodebuild clean build
+        xcodebuild build
         -project ${{ env.XCODEPROJ }}
         -scheme burstcamp 
         -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=${{ matrix.simulator }}'
