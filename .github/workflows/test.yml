@@ -28,9 +28,9 @@ jobs:
         echo $FIREBASE_SECRET | base64 -D -o ${{ env.PROJECT }}/GoogleService-Info.plist
         echo $API_SECRET | base64 -D -o ${{ env.PROJECT }}/Service-Info.plist
 
-    - name: Select Xcode ${{ xcode }}
+    - name: Select Xcode ${{ matrix.xcode }}
       run: sudo xcode-select -switch /Applications/Xcode_$xcode.app && /usr/bin/xcodebuild -version
 
     - name: Build
       run: |
-        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=$ios,name=iPhone 13 Pro'
+        xcodebuild clean build -project ${{ env.PROJECT }}.xcodeproj -scheme burstcamp -destination 'platform=iOS Simulator,OS=${{ matrix.ios }},name=iPhone 13 Pro'
